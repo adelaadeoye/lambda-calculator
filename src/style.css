@@ -1,0 +1,16 @@
+button{
+    background: #184379;
+    color: #ffffff;
+    border: 1px solid #184379;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin: 10px;
+}
+.special_pro{
+    /* width: 80%; */
+    /* display: flex; */
+    justify-content: center;
+    color: aqua;
+    flex-direction: column;
+}
