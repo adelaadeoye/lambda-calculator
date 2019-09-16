@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import "./App.css";
-import "./style.css";
+import React, { useState,useEffect } from "react";
+// import "./App.css";
+// import "./style.css";
 // STEP 4 - import the button and display components
 // Don't forget to import any extra css/scss files you build into the correct component
 
@@ -24,25 +24,78 @@ function App() {
 
   function inputNum(num) {
     if (!operator || operator === "=") {
-      if (numA == "0" || operator === "=") {
+      if (numA === "0" || operator === "=") {
         setNumA(num);
         setOperator("");
+      } else if (numA.length < 11) {
+        setNumA(numA + num);
+      }
+    } 
+    else {
+      if (!numB || numB === "0") 
+        setNumB(num);
+      else if (numB.length < 11) {
+        setNumB(numB + num);
       }
     }
   }
+  function inputOperator(value) {
+    if (!operator || !numB) { // set operator
+        setOperator(value)
+    }
+    else { 
+        // eslint-disable-next-line no-eval
+        let cal=eval(numA+operator+numB)
+      let len= cal.toString().length
+
+        if (len<11){
+          setNumA(cal)
+        setNumB('')
+        setOperator(value)
+        }
+        else{
+            setNumA(cal.toExponential(2))
+            setNumB('')
+        setOperator(value)
+          }
+        
+    }
+}
+
+function inputSpecial(character) {
+    // eslint-disable-next-line default-case
+    switch (character) {
+      case 'C':
+          setNumA('0')
+          setOperator('')
+          setNumB('')
+          break
+      case '+/-':
+          if (numB) setNumB(String(Number(numB) * -1))
+          else setNumA(String(Number(numA) * -1))
+          break
+      case '%':
+          if (numB) setNumB(String(Number(numB) / 100))
+          else setNumA(String(Number(numA) / 100))
+          break
+    }
+}
+  useEffect(() => {
+    setDisplay(numB ? numB : numA);
+  }, [numA, numB]);
   return (
     <div className="container">
       <Logo />
       <div className="App">
         {/* STEP 4 - Render your components here and be sure to properly import/export all files */}
-        <Display />
+        <Display display={display} />
         <div className="TwoDiv">
           <div className="Special_number">
-            <Specials />
-            <Numbers />
+            <Specials inputSpecial={inputSpecial} />
+            <Numbers inputNum={inputNum} />
           </div>
           <div className="Operate">
-            <Operator />
+            <Operator inputOperator={inputOperator}/>
           </div>
         </div>
       </div>

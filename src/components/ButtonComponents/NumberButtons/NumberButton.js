@@ -3,7 +3,7 @@ import React from "react";
 const NumberButton = props => {
   return (
   
-      <button className="special_pro " onClick={()=>'call a function' } >{props.numbers}</button>
+      <button className="special_pro " onClick={()=>{props.inputNum(props.numbers)} } >{props.numbers}</button>
     
   
   );
